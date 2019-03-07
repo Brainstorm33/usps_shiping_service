@@ -1,0 +1,35 @@
+{
+  "name": "node-koa-starter",
+  "version": "0.0.1",
+  "description": "Boilerplate for new koa.js projects",
+  "main": "app.js",
+  "scripts": {
+    "start": "node bin/node-koa-starter",
+    "test": "NODE_ENV=test mocha --recursive test",
+    "dev": "nodemon --ignore test --ignore public bin/node-koa-starter",
+    "lint": "eslint --ignore-pattern node_modules --ignore-pattern public/js --ignore-pattern assets ."
+  },
+  "author": "Tobi Kremer",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "dotenv": "^6.2.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.0.1",
+    "koa-response-time": "^2.0.0",
+    "koa-router": "^7.2.1",
+    "lodash": "^4.17.11",
+    "usps-web-tools-node-sdk": "^0.6.1",
+    "usps-webtools": "^1.0.3",
+    "xml2json": "^0.11.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^3.5.0",
+    "supertest": "^3.0.0"
+  }
+}
