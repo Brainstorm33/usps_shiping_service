@@ -1,14 +1,11 @@
 const router = require('koa-router')();
-const validateAddress = require('../controllers/validate');
 const rateShipping = require('../controllers/rate');
-const label = require('../controllers/label');
+const generateLabel = require('../controllers/label');
 
 
-router.post('/validateAddress', /* Authenticate, */ validateAddress);
+router.post('/rateShipping', rateShipping);
 
-router.post('/rateShipping', /* Authenticate, */ rateShipping);
-
-router.post('/label', /* Authenticate, */ label);
+router.post('/generateLabel', generateLabel);
 
 
 module.exports = router;

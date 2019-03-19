@@ -13,6 +13,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@easypost/api": "^3.6.6",
     "bluebird": "^3.5.3",
     "dotenv": "^6.2.0",
     "koa": "^2.3.0",
@@ -21,8 +22,6 @@
     "koa-response-time": "^2.0.0",
     "koa-router": "^7.2.1",
     "lodash": "^4.17.11",
-    "usps-web-tools-node-sdk": "^0.6.1",
-    "usps-webtools": "^1.0.3",
     "xml2json": "^0.11.2"
   },
   "devDependencies": {
