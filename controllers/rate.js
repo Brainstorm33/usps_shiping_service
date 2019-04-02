@@ -59,6 +59,7 @@ async function rateShipping(ctx) {
       phone: fromPhone,
     });
 
+    // TODO parcel sizes should be changed
     const parcel = new api.Parcel({
       length: parseInt(length, 10),
       width: parseInt(width, 10),
