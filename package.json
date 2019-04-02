@@ -1,15 +1,15 @@
 {
-  "name": "node-koa-starter",
+  "name": "usps_shiping_service",
   "version": "0.0.1",
-  "description": "Boilerplate for new koa.js projects",
+  "description": "s",
   "main": "app.js",
   "scripts": {
-    "start": "node bin/node-koa-starter",
+    "start": "pm2 start bin/index.js --name usps_service",
     "test": "NODE_ENV=test mocha --recursive test",
     "dev": "nodemon --ignore test --ignore public bin/node-koa-starter",
     "lint": "eslint --ignore-pattern node_modules --ignore-pattern public/js --ignore-pattern assets ."
   },
-  "author": "Tobi Kremer",
+  "author": "Brainstorm",
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -22,6 +22,7 @@
     "koa-response-time": "^2.0.0",
     "koa-router": "^7.2.1",
     "lodash": "^4.17.11",
+    "pm2": "^3.4.1",
     "xml2json": "^0.11.2"
   },
   "devDependencies": {
