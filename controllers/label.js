@@ -11,10 +11,20 @@ async function generateLabel(ctx) {
   const data = _.get(ctx, 'request.body');
   const { shipment_id } = data;
 
-
+  console.log('qwertyqwertyqwertyqwertyqwertyqwerty');
   try {
     const shipping = await api.Shipment.retrieve(shipment_id);
     const result = await shipping.buy(shipping.lowestRate());
+
+    console.log('result.rates.tracking_code');
+    console.log(result.rates.tracking_code);
+
+    /* const tracker = new api.Tracker({
+      tracking_code: result.rates.tracking_code,
+      carrier: 'USPS',
+    });
+
+    tracker.save().then(console.log); */
 
     _.set(ctx, 'body', result);
   } catch (err) {
