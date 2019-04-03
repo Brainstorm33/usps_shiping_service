@@ -7,6 +7,8 @@ async function rateShipping(ctx) {
   const { USPS_KEY } = process.env;
   const api = new Easypost(USPS_KEY);
 
+  console.log('USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY');
+  console.log(USPS_KEY);
   const data = _.get(ctx, 'request.body');
 
   const {
