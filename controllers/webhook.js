@@ -10,7 +10,7 @@ const fetch = require('node-fetch');
 
 
 async function webHook(ctx) {
-  const { USPS_KEY } = process.env;
+  const { USPS_KEY, BACKEND_SERVICE_URL } = process.env;
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
@@ -202,10 +202,10 @@ async function webHook(ctx) {
     const { status: tracking_status, tracking_code } = data.result;
     if (tracking_status === 'delivered' /* && tracking_status !== conversation.status */) {
       console.log('delivered');
-      const resp = await fetch('http://localhost:3300/shipping/callConfirmTransaction', {
+      const resp = await fetch(`${BACKEND_SERVICE_URL}/shipping/callConfirmTransaction`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tracking_status, tracking_code: '9461236897846021412344' }),
+        body: JSON.stringify({ tracking_status, tracking_code /* : '9461236897846021416731' */ }),
         // body: JSON.stringify(tracking_code),
       })
         .then(response => response.json())
@@ -213,10 +213,10 @@ async function webHook(ctx) {
       _.set(ctx, 'body', resp);
     } else if (data.result.status === 'return_to_sender') {
       console.log('return_to_sender');
-      const resp = await fetch('http://localhost:3300/shipping/callRefundTransaction', {
+      const resp = await fetch(`${BACKEND_SERVICE_URL}/shipping/callRefundTransaction`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tracking_status, tracking_code: '9461236897846021412344' }),
+        body: JSON.stringify({ tracking_status, tracking_code /* : '9461236897846021416731' */ }),
         // body: JSON.stringify(tracking_code),
       })
         .then(response => response.json())
