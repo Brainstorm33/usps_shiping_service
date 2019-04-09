@@ -13,14 +13,14 @@ async function rateShipping(ctx) {
   let width;
   let height;
   let weight;
-  let toZip;
-  let toStreet1;
-  let toStreet2;
-  let toCity;
-  let toState;
-  let toCountry;
-  let toCompany;
-  let toPhone;
+  let fromZip;
+  let fromStreet1;
+  let fromStreet2;
+  let fromCity;
+  let fromState;
+  let fromCountry;
+  let fromCompany;
+  let fromPhone;
 
   if (data.product.shipment !== false) {
     /* const {
@@ -33,35 +33,35 @@ async function rateShipping(ctx) {
     width = shipment.width;
     height = shipment.height;
     weight = shipment.weight;
-    toZip = shipment.zip;
-    toStreet1 = shipment.street1;
-    toStreet2 = shipment.street2;
-    toCity = shipment.city;
-    toState = shipment.state;
-    toCountry = shipment.country;
-    toCompany = shipment.company;
-    toPhone = shipment.phone;
+    fromZip = shipment.zip;
+    fromStreet1 = shipment.street1;
+    fromStreet2 = shipment.street2;
+    fromCity = shipment.city;
+    fromState = shipment.state;
+    fromCountry = shipment.country;
+    fromCompany = shipment.company;
+    fromPhone = shipment.phone;
   }
 
 
   const {
-    /* toStreet1,
+    toStreet1,
     toStreet2,
     toCity,
     toState,
     toZip,
     toCountry,
     toCompany,
-    toPhone, */
+    toPhone,
 
-    fromStreet1,
+    /* fromStreet1,
     fromStreet2,
     fromCity,
     fromState,
     fromZip,
     fromCountry,
     fromCompany,
-    fromPhone,
+    fromPhone, */
 
     /* length,
     width,
