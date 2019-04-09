@@ -7,19 +7,52 @@ async function rateShipping(ctx) {
   const { USPS_KEY } = process.env;
   const api = new Easypost(USPS_KEY);
 
-  console.log('USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY_USPS_KEY');
-  console.log(USPS_KEY);
   const data = _.get(ctx, 'request.body');
 
+  let length;
+  let width;
+  let height;
+  let weight;
+  let toZip;
+  let toStreet1;
+  let toStreet2;
+  let toCity;
+  let toState;
+  let toCountry;
+  let toCompany;
+  let toPhone;
+
+  if (data.product.shipment !== false) {
+    /* const {
+      shipment: {
+        length, width, height, weight, zip,
+      },
+    } = product; */
+    const shipment = data.product.shipment;
+    length = shipment.length;
+    width = shipment.width;
+    height = shipment.height;
+    weight = shipment.weight;
+    toZip = shipment.zip;
+    toStreet1 = shipment.street1;
+    toStreet2 = shipment.street2;
+    toCity = shipment.city;
+    toState = shipment.state;
+    toCountry = shipment.country;
+    toCompany = shipment.company;
+    toPhone = shipment.phone;
+  }
+
+
   const {
-    toStreet1,
+    /* toStreet1,
     toStreet2,
     toCity,
     toState,
     toZip,
     toCountry,
     toCompany,
-    toPhone,
+    toPhone, */
 
     fromStreet1,
     fromStreet2,
@@ -30,10 +63,10 @@ async function rateShipping(ctx) {
     fromCompany,
     fromPhone,
 
-    length,
+    /* length,
     width,
     height,
-    weight,
+    weight, */
   } = data;
 
   try {
@@ -61,7 +94,6 @@ async function rateShipping(ctx) {
       phone: fromPhone,
     });
 
-    // TODO parcel sizes should be changed
     const parcel = new api.Parcel({
       length: parseInt(length, 10),
       width: parseInt(width, 10),

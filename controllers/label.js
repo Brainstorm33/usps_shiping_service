@@ -9,22 +9,12 @@ async function generateLabel(ctx) {
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
-  const { shipment_id: shipmentId } = data;
+  const { shipmentId } = data;
 
-  console.log('qwertyqwertyqwertyqwertyqwertyqwerty');
+
   try {
     const shipping = await api.Shipment.retrieve(shipmentId);
     const result = await shipping.buy(shipping.lowestRate());
-
-    console.log('result.rates.tracking_code');
-    console.log(result.rates.tracking_code);
-
-    /* const tracker = new api.Tracker({
-      tracking_code: result.rates.tracking_code,
-      carrier: 'USPS',
-    });
-
-    tracker.save().then(console.log); */
 
     _.set(ctx, 'body', result);
   } catch (err) {
