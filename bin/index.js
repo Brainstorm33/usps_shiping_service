@@ -12,5 +12,5 @@ const PORT = 3001; // process.env.PORT || 3001;
 
 app.listen(PORT);
 console.log(`${pkg.name} v${pkg.version} listening on port ${PORT}`);
-console.log(`USPS_KEY = ${process.env.USPS_KEY}`);
+// console.log(`USPS_KEY = ${process.env.USPS_KEY}`);
 
