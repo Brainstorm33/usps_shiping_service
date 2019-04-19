@@ -9,11 +9,11 @@ async function generateLabel(ctx) {
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
-  const { shipmentId } = data;
+  const { shipment_id } = data;
 
 
   try {
-    const shipping = await api.Shipment.retrieve(shipmentId);
+    const shipping = await api.Shipment.retrieve(shipment_id);
     const result = await shipping.buy(shipping.lowestRate());
 
     _.set(ctx, 'body', result);
