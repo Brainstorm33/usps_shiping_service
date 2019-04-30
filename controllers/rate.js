@@ -23,12 +23,8 @@ async function rateShipping(ctx) {
   let fromPhone;
 
   if (data.product.shipment !== false) {
-    /* const {
-      shipment: {
-        length, width, height, weight, zip,
-      },
-    } = product; */
     const shipment = data.product.shipment;
+
     length = shipment.length;
     width = shipment.width;
     height = shipment.height;
@@ -53,20 +49,6 @@ async function rateShipping(ctx) {
     toCountry,
     toCompany,
     toPhone,
-
-    /* fromStreet1,
-    fromStreet2,
-    fromCity,
-    fromState,
-    fromZip,
-    fromCountry,
-    fromCompany,
-    fromPhone, */
-
-    /* length,
-    width,
-    height,
-    weight, */
   } = data;
 
   try {
@@ -117,7 +99,6 @@ async function rateShipping(ctx) {
     }
 
     await shipment.save();
-
 
     _.set(ctx, 'body', shipment);
   } catch (err) {

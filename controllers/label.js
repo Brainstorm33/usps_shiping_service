@@ -7,15 +7,18 @@ const Easypost = require('@easypost/api');
 async function generateLabel(ctx) {
   const { USPS_KEY } = process.env;
   const api = new Easypost(USPS_KEY);
-
   const data = _.get(ctx, 'request.body');
-  const { shipment_id } = data;
+  const { shipment_id, rate: rateId } = data;
 
-
+  // TODO fetch rate and pass to shipping.buy
   try {
     const shipping = await api.Shipment.retrieve(shipment_id);
-    const result = await shipping.buy(shipping.lowestRate());
+    let rate;
 
+    if (rateId) {
+      rate = shipping.rates.find(el => el.id === rateId);
+    }
+    const result = await shipping.buy(rate || shipping.lowestRate());
     _.set(ctx, 'body', result);
   } catch (err) {
     const message = err.Description;
