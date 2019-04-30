@@ -7,5 +7,4 @@ router.post('/rateShipping', rateShipping);
 
 router.post('/generateLabel', generateLabel);
 
-
 module.exports = router;
