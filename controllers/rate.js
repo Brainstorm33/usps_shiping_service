@@ -102,7 +102,9 @@ async function rateShipping(ctx) {
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
+    console.log('USPS------RATE------SHIPPING-----ERROR');
     console.log(err);
+    const message = err.Description;
   }
 }
 

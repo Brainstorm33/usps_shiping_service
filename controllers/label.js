@@ -21,6 +21,8 @@ async function generateLabel(ctx) {
     const result = await shipping.buy(rate || shipping.lowestRate());
     _.set(ctx, 'body', result);
   } catch (err) {
+    console.log('USPS------GENERATE------LABEL-----ERROR');
+    console.log(err);
     const message = err.Description;
     const error = new Error(message);
     error.display = message;
