@@ -83,6 +83,10 @@ async function rateShipping(ctx) {
       weight: parseInt(weight, 10),
     });
 
+    console.log('USPS------RATE------SHIPPING-----TO');
+    console.log(toAddress);
+    console.log('USPS------RATE------SHIPPING-----FROM');
+    console.log(fromAddress);
     const shipment = new api.Shipment({
       parcel,
       to_address: toAddress,
@@ -91,11 +95,10 @@ async function rateShipping(ctx) {
     });
 
     try {
-      parcel.save()
-        .then(console.log)
-        .catch(console.log);
-    } catch (error) {
-      console.log(error);
+      await parcel.save();
+    } catch (err) {
+      console.log('USPS------RATE------SHIPPING-----ERROR_SAVE_PARSEL');
+      console.log(err);
     }
 
     await shipment.save();
