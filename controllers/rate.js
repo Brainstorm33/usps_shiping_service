@@ -22,6 +22,9 @@ async function rateShipping(ctx) {
   let fromCompany;
   let fromPhone;
 
+  console.log('PRODUCT');
+  // TODO wtf, all product ????????
+  console.log(data.product);
   if (data.product.shipment !== false) {
     const shipment = data.product.shipment;
 
