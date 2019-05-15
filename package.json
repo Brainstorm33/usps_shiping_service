@@ -6,7 +6,7 @@
   "scripts": {
     "start": "pm2 start bin/index.js --name usps_service",
     "test": "NODE_ENV=test mocha --recursive test",
-    "dev": "nodemon --ignore test --ignore public bin/node-koa-starter",
+    "dev": "nodemon --ignore test --ignore public bin/index",
     "lint": "eslint --ignore-pattern node_modules --ignore-pattern public/js --ignore-pattern assets ."
   },
   "author": "Brainstorm",

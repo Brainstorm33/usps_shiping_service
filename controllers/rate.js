@@ -24,8 +24,7 @@ async function rateShipping(ctx) {
 
   console.log('PRODUCT');
   // TODO wtf, all product ????????
-  console.log(data.product);
-  if (data.product.shipment !== false) {
+  if (data.product.shipment) {
     const shipment = data.product.shipment;
 
     length = shipment.length;
@@ -41,7 +40,6 @@ async function rateShipping(ctx) {
     fromCompany = shipment.company;
     fromPhone = shipment.phone;
   }
-
 
   const {
     toStreet1,
@@ -94,23 +92,15 @@ async function rateShipping(ctx) {
       parcel,
       to_address: toAddress,
       from_address: fromAddress,
-      is_return: true,
     });
 
-    try {
-      await parcel.save();
-    } catch (err) {
-      console.log('USPS------RATE------SHIPPING-----ERROR_SAVE_PARSEL');
-      console.log(err);
-    }
-
+    await parcel.save();
     await shipment.save();
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
-    console.log('USPS------RATE------SHIPPING-----ERROR');
-    console.log(err);
     const message = err.Description;
+    throw new Error(message);
   }
 }
 

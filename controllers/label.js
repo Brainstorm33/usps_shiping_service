@@ -8,6 +8,7 @@ async function generateLabel(ctx) {
   const { USPS_KEY } = process.env;
   const api = new Easypost(USPS_KEY);
   const data = _.get(ctx, 'request.body');
+  console.log(data);
   const { shipment_id, rate: rateId } = data;
 
   // TODO fetch rate and pass to shipping.buy
