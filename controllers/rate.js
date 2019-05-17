@@ -22,7 +22,9 @@ async function rateShipping(ctx) {
   let fromCompany;
   let fromPhone;
 
-  if (data.product.shipment !== false) {
+  console.log('PRODUCT');
+  // TODO wtf, all product ????????
+  if (data.product.shipment) {
     const shipment = data.product.shipment;
 
     length = shipment.length;
@@ -38,7 +40,6 @@ async function rateShipping(ctx) {
     fromCompany = shipment.company;
     fromPhone = shipment.phone;
   }
-
 
   const {
     toStreet1,
@@ -83,26 +84,23 @@ async function rateShipping(ctx) {
       weight: parseInt(weight, 10),
     });
 
+    console.log('USPS------RATE------SHIPPING-----TO');
+    console.log(toAddress);
+    console.log('USPS------RATE------SHIPPING-----FROM');
+    console.log(fromAddress);
     const shipment = new api.Shipment({
       parcel,
       to_address: toAddress,
       from_address: fromAddress,
-      is_return: true,
     });
 
-    try {
-      parcel.save()
-        .then(console.log)
-        .catch(console.log);
-    } catch (error) {
-      console.log(error);
-    }
-
+    await parcel.save();
     await shipment.save();
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
-    console.log(err);
+    const message = err.Description;
+    throw new Error(message);
   }
 }
 
