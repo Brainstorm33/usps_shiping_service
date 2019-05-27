@@ -99,7 +99,7 @@ async function rateShipping(ctx) {
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
-    console.log(err);
+    console.log(JSON.stringify(err));
     const message = err.Description;
     throw new Error(message);
   }
