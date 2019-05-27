@@ -20,7 +20,10 @@ async function generateLabel(ctx) {
       rate = shipping.rates.find(el => el.id === rateId);
     }
     const result = await shipping.buy(rate || shipping.lowestRate());
-    _.set(ctx, 'body', result);
+
+    const { tracker: { public_url: trackingUrl } } = result;
+
+    _.set(ctx, 'body', { result, trackingUrl });
   } catch (err) {
     console.log('USPS------GENERATE------LABEL-----ERROR');
     console.log(err);
