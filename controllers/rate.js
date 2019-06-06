@@ -97,14 +97,29 @@ async function rateShipping(ctx) {
     await parcel.save();
     await shipment.save();
 
-    const { rates } = shipment;
+
     let i = 0;
-    rates.forEach((rate) => {
-      if (rate !== 'Priority') {
-        shipment.rates.splice(i, 1);
+
+    const indexOfUnusedRates = [];
+    shipment.rates.forEach((rate) => {
+      if (rate.service !== 'Priority') {
+        indexOfUnusedRates.push(i);
       }
       i += 1;
     });
+
+    // shipment.rates.splice(indexOfUnusedRates, 1);
+
+    i = 0;
+    indexOfUnusedRates.forEach((index) => {
+      if (i === 0) {
+        shipment.rates.splice(index, 1);
+      } else {
+        shipment.rates.splice(index - 1, 1);
+      }
+      i += 1;
+    });
+
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
