@@ -97,6 +97,15 @@ async function rateShipping(ctx) {
     await parcel.save();
     await shipment.save();
 
+    const { rates } = shipment;
+    let i = 0;
+    rates.forEach((rate) => {
+      if (rate !== 'Priority') {
+        shipment.rates.splice(i, 1);
+      }
+      i += 1;
+    });
+
     _.set(ctx, 'body', shipment);
   } catch (err) {
     const message = err.Description;
