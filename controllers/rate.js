@@ -97,6 +97,7 @@ async function rateShipping(ctx) {
     await parcel.save();
     await shipment.save();
 
+    const ratesCount = shipment.rates.length;
 
     let i = 0;
 
@@ -104,6 +105,17 @@ async function rateShipping(ctx) {
     shipment.rates.forEach((rate) => {
       if (rate.service !== 'Priority') {
         indexOfUnusedRates.push(i);
+      }
+      i += 1;
+    });
+
+    i = 0;
+
+    indexOfUnusedRates.forEach((index) => {
+      if (ratesCount === shipment.rates.length) {
+        shipment.rates.splice(index, 1);
+      } else {
+        shipment.rates.splice(index - 1, 1);
       }
       i += 1;
     });
