@@ -101,6 +101,7 @@ async function rateShipping(ctx) {
     for (let i = 0; i < shipment.rates.length; i++) {
       if (shipment.rates[i].service === 'Priority') {
         priorityRate = [shipment.rates[i]];
+        break;
       }
     }
 
