@@ -12,15 +12,19 @@ async function retrieveShipping(ctx) {
 
   try {
     const shipment = await api.Shipment.retrieve(shipmentId);
-    let priorityRate;
+
+    const priorityRate = [];
     for (let i = 0; i < shipment.rates.length; i += 1) {
       if (shipment.rates[i].service === shippingType) {
-        priorityRate = shipment.rates[i];
+        console.log('shipment.rates[i].service === shippingType');
+        priorityRate.push(shipment.rates[i]);
         break;
       }
     }
-    // shipment.rates = [priorityRate];
-    _.set(ctx, 'body', priorityRate);
+
+    shipment.rates = priorityRate;
+
+    _.set(ctx, 'body', shipment);
   } catch (err) {
     console.log(JSON.stringify(err));
     const message = err.Description;
