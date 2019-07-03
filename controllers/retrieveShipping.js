@@ -13,41 +13,18 @@ async function retrieveShipping(ctx) {
   try {
     const shipment = await api.Shipment.retrieve(shipmentId);
 
-    // let i = 0;
-
-    // const indexOfUnusedRates = [];
-    let priorityRate;
+    const priorityRate = [];
     for (let i = 0; i < shipment.rates.length; i += 1) {
       if (shipment.rates[i].service === shippingType) {
-        // shipment.rates.service = [shipment.rates[i].service];
-        priorityRate = shipment.rates[i];
+        console.log('shipment.rates[i].service === shippingType');
+        priorityRate.push(shipment.rates[i]);
         break;
       }
     }
 
-    /* shipment.rates.forEach((rate) => {
-      if (rate.service !== 'Priority') {
-        indexOfUnusedRates.push(i);
-      }
-      i += 1;
-    }); */
+    shipment.rates = priorityRate;
 
-    // shipment.rates.splice(indexOfUnusedRates, 1);
-
-    /* i = 0;
-    indexOfUnusedRates.forEach((index) => {
-      if (i === 0) {
-        shipment.rates.splice(index, 1);
-      } else {
-        shipment.rates.splice(index - 1, 1);
-      }
-      i += 1;
-    });
-
-
-    const { rates: { 0: shippingPrice } } = shipment; */
-
-    _.set(ctx, 'body', priorityRate);
+    _.set(ctx, 'body', shipment);
   } catch (err) {
     console.log(JSON.stringify(err));
     const message = err.Description;
