@@ -8,25 +8,33 @@ async function retrieveShipping(ctx) {
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
-  const { shipmentId } = data;
+  const { shipmentId, shippingType } = data;
 
   try {
     const shipment = await api.Shipment.retrieve(shipmentId);
 
+    // let i = 0;
 
-    let i = 0;
+    // const indexOfUnusedRates = [];
+    let priorityRate;
+    for (let i = 0; i < shipment.rates.length; i += 1) {
+      if (shipment.rates[i].service === shippingType) {
+        // shipment.rates.service = [shipment.rates[i].service];
+        priorityRate = shipment.rates[i];
+        break;
+      }
+    }
 
-    const indexOfUnusedRates = [];
-    shipment.rates.forEach((rate) => {
+    /* shipment.rates.forEach((rate) => {
       if (rate.service !== 'Priority') {
         indexOfUnusedRates.push(i);
       }
       i += 1;
-    });
+    }); */
 
     // shipment.rates.splice(indexOfUnusedRates, 1);
 
-    i = 0;
+    /* i = 0;
     indexOfUnusedRates.forEach((index) => {
       if (i === 0) {
         shipment.rates.splice(index, 1);
@@ -37,7 +45,9 @@ async function retrieveShipping(ctx) {
     });
 
 
-    _.set(ctx, 'body', shipment);
+    const { rates: { 0: shippingPrice } } = shipment; */
+
+    _.set(ctx, 'body', priorityRate);
   } catch (err) {
     console.log(JSON.stringify(err));
     const message = err.Description;
