@@ -9,9 +9,6 @@ async function rateShipping(ctx) {
 
   const data = _.get(ctx, 'request.body');
 
-  let length;
-  let width;
-  let height;
   let weight;
   let fromZip;
   let fromStreet1;
@@ -21,16 +18,15 @@ async function rateShipping(ctx) {
   let fromCountry;
   let fromCompany;
   let fromPhone;
+  let predefinedPackage;
 
   console.log('PRODUCT');
   // TODO wtf, all product ????????
   if (data.product.shipment) {
     const shipment = data.product.shipment;
 
-    length = shipment.length;
-    width = shipment.width;
-    height = shipment.height;
     weight = shipment.weight;
+    predefinedPackage = shipment.predefinedPackage;
     fromZip = shipment.zip;
     fromStreet1 = shipment.street1;
     fromStreet2 = shipment.street2;
@@ -78,10 +74,8 @@ async function rateShipping(ctx) {
     });
 
     const parcel = new api.Parcel({
-      length: parseInt(length, 10),
-      width: parseInt(width, 10),
-      height: parseInt(height, 10),
       weight: parseInt(weight, 10),
+      predefined_package: predefinedPackage,
     });
 
     console.log('USPS------RATE------SHIPPING-----TO');
