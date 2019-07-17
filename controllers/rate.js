@@ -25,22 +25,23 @@ async function rateShipping(ctx) {
 
   console.log('PRODUCT');
   // TODO wtf, all product ????????
-  if (data.product.shipment) {
-    const shipment = data.product.shipment;
+  if (data.product.shipment && data.fromAddress) {
+    const { product: { shipment } } = data;
+    const { fromAddress } = data;
 
     weight = shipment.weight;
     length = shipment.length;
     width = shipment.width;
     height = shipment.height;
     predefinedPackage = shipment.predefinedPackage;
-    fromZip = shipment.zip;
-    fromStreet1 = shipment.street1;
-    fromStreet2 = shipment.street2;
-    fromCity = shipment.city;
-    fromState = shipment.state;
-    fromCountry = shipment.country;
-    fromCompany = shipment.company;
-    fromPhone = shipment.phone;
+    fromZip = fromAddress.zip;
+    fromStreet1 = fromAddress.street1;
+    fromStreet2 = fromAddress.street2;
+    fromCity = fromAddress.city;
+    fromState = fromAddress.state;
+    fromCountry = fromAddress.country;
+    fromCompany = fromAddress.company;
+    fromPhone = fromAddress.phone;
   }
 
   const {
