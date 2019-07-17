@@ -9,10 +9,10 @@ async function rateShipping(ctx) {
 
   const data = _.get(ctx, 'request.body');
 
+  let weight;
   let length;
   let width;
   let height;
-  let weight;
   let fromZip;
   let fromStreet1;
   let fromStreet2;
@@ -21,24 +21,27 @@ async function rateShipping(ctx) {
   let fromCountry;
   let fromCompany;
   let fromPhone;
+  let predefinedPackage;
 
   console.log('PRODUCT');
   // TODO wtf, all product ????????
-  if (data.product.shipment) {
-    const shipment = data.product.shipment;
+  if (data.product.shipment && data.fromAddress) {
+    const { product: { shipment } } = data;
+    const { fromAddress } = data;
 
+    weight = shipment.weight;
     length = shipment.length;
     width = shipment.width;
     height = shipment.height;
-    weight = shipment.weight;
-    fromZip = shipment.zip;
-    fromStreet1 = shipment.street1;
-    fromStreet2 = shipment.street2;
-    fromCity = shipment.city;
-    fromState = shipment.state;
-    fromCountry = shipment.country;
-    fromCompany = shipment.company;
-    fromPhone = shipment.phone;
+    predefinedPackage = shipment.predefinedPackage;
+    fromZip = fromAddress.zip;
+    fromStreet1 = fromAddress.street1;
+    fromStreet2 = fromAddress.street2;
+    fromCity = fromAddress.city;
+    fromState = fromAddress.state;
+    fromCountry = fromAddress.country;
+    fromCompany = fromAddress.company;
+    fromPhone = fromAddress.phone;
   }
 
   const {
@@ -50,6 +53,7 @@ async function rateShipping(ctx) {
     toCountry,
     toCompany,
     toPhone,
+    buyerFullName,
   } = data;
 
   try {
@@ -60,10 +64,11 @@ async function rateShipping(ctx) {
       street2: toStreet2,
       city: toCity,
       state: toState,
-      zip: toZip,
+      zip: toZip.toString(),
       country: toCountry,
       company: toCompany,
       phone: toPhone,
+      name: `to ${buyerFullName}`,
     });
 
     const fromAddress = new api.Address({
@@ -77,12 +82,20 @@ async function rateShipping(ctx) {
       phone: fromPhone,
     });
 
-    const parcel = new api.Parcel({
-      length: parseInt(length, 10),
-      width: parseInt(width, 10),
-      height: parseInt(height, 10),
-      weight: parseInt(weight, 10),
-    });
+    let parcel;
+    if (predefinedPackage) {
+      parcel = new api.Parcel({
+        weight: parseInt(weight, 10),
+        predefined_package: predefinedPackage,
+      });
+    } else {
+      parcel = new api.Parcel({
+        length: parseInt(length, 10),
+        width: parseInt(width, 10),
+        height: parseInt(height, 10),
+        weight: parseInt(weight, 10),
+      });
+    }
 
     console.log('USPS------RATE------SHIPPING-----TO');
     console.log(toAddress);
