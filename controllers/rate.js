@@ -53,7 +53,7 @@ async function rateShipping(ctx) {
     toCountry,
     toCompany,
     toPhone,
-    buyerFullName,
+    fullName,
   } = data;
 
   try {
@@ -68,7 +68,7 @@ async function rateShipping(ctx) {
       country: toCountry,
       company: toCompany,
       phone: toPhone,
-      name: `to ${buyerFullName}`,
+      name: `to ${fullName}`,
     });
 
     const fromAddress = new api.Address({
