@@ -21,6 +21,7 @@ async function rateShipping(ctx) {
   let fromCountry;
   let fromCompany;
   let fromPhone;
+  let fromFullName;
   let predefinedPackage;
 
   console.log('PRODUCT');
@@ -42,6 +43,7 @@ async function rateShipping(ctx) {
     fromCountry = fromAddress.country;
     fromCompany = fromAddress.company;
     fromPhone = fromAddress.phone;
+    fromFullName = data.product.ownerName;
   }
 
   const {
@@ -80,6 +82,7 @@ async function rateShipping(ctx) {
       country: fromCountry,
       company: fromCompany,
       phone: fromPhone,
+      name: `from ${fromFullName}`,
     });
 
     let parcel;
