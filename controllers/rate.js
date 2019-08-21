@@ -8,6 +8,7 @@ async function rateShipping(ctx) {
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
+  let rateService = 'Priority';
 
   let weight;
   let length;
@@ -113,9 +114,16 @@ async function rateShipping(ctx) {
     await parcel.save();
     await shipment.save();
 
+    for (let i = 0; i < shipment.rates.length; i++) { // eslint-disable-line
+      if (shipment.rates[i].service === 'First') {
+        rateService = 'First';
+        break;
+      }
+    }
+
     let priorityRate;
-    for (let i = 0; i < shipment.rates.length; i++) {
-      if (shipment.rates[i].service === 'Priority') {
+    for (let i = 0; i < shipment.rates.length; i++) { // eslint-disable-line
+      if (shipment.rates[i].service === rateService) {
         priorityRate = [shipment.rates[i]];
         break;
       }
