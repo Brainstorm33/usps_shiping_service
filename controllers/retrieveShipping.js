@@ -8,21 +8,11 @@ async function retrieveShipping(ctx) {
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
-  const { shipmentId, shippingType } = data;
+  const { shipmentId } = data;
 
   try {
     const shipment = await api.Shipment.retrieve(shipmentId);
 
-    const priorityRate = [];
-    for (let i = 0; i < shipment.rates.length; i += 1) {
-      if (shipment.rates[i].service === shippingType) {
-        console.log('shipment.rates[i].service === shippingType');
-        priorityRate.push(shipment.rates[i]);
-        break;
-      }
-    }
-
-    shipment.rates = priorityRate;
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
