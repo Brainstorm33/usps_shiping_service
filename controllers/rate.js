@@ -25,6 +25,7 @@ async function rateShipping(ctx) {
   let predefinedPackage;
 
   console.log('PRODUCT');
+
   // TODO wtf, all product ????????
   if (data.product.shipment && data.fromAddress) {
     const { product: { shipment } } = data;
