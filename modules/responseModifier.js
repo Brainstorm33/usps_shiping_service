@@ -36,7 +36,6 @@ const ResponseModifier = async (ctx, next) => {
       _.set(ctx, 'response.body', record);
     }
   } catch (error) {
-    console.log(error);
     ctx.status = error.status || 500;
     ctx.body = {
       success: false,

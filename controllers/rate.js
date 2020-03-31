@@ -9,53 +9,34 @@ async function rateShipping(ctx) {
 
   const data = _.get(ctx, 'request.body');
 
-  let weight;
-  let length;
-  let width;
-  let height;
-  let fromZip;
-  let fromStreet1;
-  let fromStreet2;
-  let fromCity;
-  let fromState;
-  let fromCountry;
-  let fromCompany;
-  let fromPhone;
-  let fromFullName;
-  let predefinedPackage;
-
-  console.log('PRODUCT');
-  // TODO wtf, all product ????????
-  if (data.product.shipment && data.fromAddress) {
-    const { product: { shipment } } = data;
-    const { fromAddress } = data;
-
-    weight = shipment.weight;
-    length = shipment.length;
-    width = shipment.width;
-    height = shipment.height;
-    predefinedPackage = shipment.predefinedPackage;
-    fromZip = fromAddress.zip;
-    fromStreet1 = fromAddress.street1;
-    fromStreet2 = fromAddress.street2;
-    fromCity = fromAddress.city;
-    fromState = fromAddress.state;
-    fromCountry = fromAddress.country;
-    fromCompany = fromAddress.company;
-    fromPhone = fromAddress.phone;
-    fromFullName = data.product.ownerName;
-  }
-
   const {
-    toStreet1,
-    toStreet2,
-    toCity,
-    toState,
-    toZip,
-    toCountry,
-    toCompany,
-    toPhone,
-    fullName,
+    fromAddress: {
+      zip: fromZip,
+      street1: fromStreet1,
+      street2: fromStreet2,
+      city: fromCity,
+      state: fromState,
+      country: fromCountry,
+      company: fromCompany,
+      phone: fromPhone,
+    },
+    toAddress: {
+      street1: toStreet1,
+      street2: toStreet2,
+      city: toCity,
+      state: toState,
+      zip: toZip,
+      country: toCountry,
+      company: toCompany,
+      phone: toPhone,
+    },
+    itemData: {
+      weight,
+      length,
+      width,
+      height,
+      predefinedPackage,
+    },
   } = data;
 
   try {
@@ -70,7 +51,6 @@ async function rateShipping(ctx) {
       country: toCountry,
       company: toCompany,
       phone: toPhone,
-      name: `to ${fullName}`,
     });
 
     const fromAddress = new api.Address({
@@ -82,7 +62,6 @@ async function rateShipping(ctx) {
       country: fromCountry,
       company: fromCompany,
       phone: fromPhone,
-      name: `from ${fromFullName}`,
     });
 
     let parcel;
@@ -100,10 +79,6 @@ async function rateShipping(ctx) {
       });
     }
 
-    console.log('USPS------RATE------SHIPPING-----TO');
-    console.log(toAddress);
-    console.log('USPS------RATE------SHIPPING-----FROM');
-    console.log(fromAddress);
     const shipment = new api.Shipment({
       parcel,
       to_address: toAddress,
@@ -114,11 +89,20 @@ async function rateShipping(ctx) {
     await shipment.save();
 
 
+    if (shipment) {
+      if (shipment.messages) {
+        if (shipment.messages[0]) {
+          if (shipment.messages[0].message) {
+            const { message: errorMessage } = shipment.messages[0];
+            throw new Error(errorMessage);
+          }
+        }
+      }
+    }
+
     _.set(ctx, 'body', shipment);
   } catch (err) {
-    console.log(JSON.stringify(err));
-    const message = err.Description;
-    throw new Error(message);
+    throw new Error(err);
   }
 }
 
