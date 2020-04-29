@@ -8,11 +8,16 @@ async function retrieveShipping(ctx) {
   const api = new Easypost(USPS_KEY);
 
   const data = _.get(ctx, 'request.body');
-  const { shipmentId } = data;
+  const { shipmentId, rateId } = data;
 
   try {
     const shipment = await api.Shipment.retrieve(shipmentId);
 
+    let rate;
+    if (rateId) {
+      rate = shipment.rates.find(el => el.id === rateId);
+      shipment.selected_rate = rate;
+    }
 
     _.set(ctx, 'body', shipment);
   } catch (err) {
