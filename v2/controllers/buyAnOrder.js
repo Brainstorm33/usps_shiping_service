@@ -3,7 +3,7 @@ const router = require('koa-router')();
 
 const Easypost = require('@easypost/api');
 
-
+// TODO test
 async function buyAnOrder(ctx) {
   const { USPS_KEY } = process.env;
   const api = new Easypost(USPS_KEY);
@@ -29,16 +29,16 @@ async function buyAnOrder(ctx) {
     // }
     const result = await order.buy('FedEx', rate || order.lowestRate()); // FEDEX_GROUND
 
-    console.log('=== result ===');
-    console.log(result);
-
-    // console.log('=== result.tracker ===');
-    // console.log(result.tracker);
-    //
-    // console.log('=== result.selected_rate ===');
-    // console.log(result.selected_rate);
-    //
     // const { tracker: { public_url: trackingUrl } } = result;
+
+    // for (let i = 0; i < result.shipments.length; i++) {
+    //   const {
+    //     tracker: { public_url: trackingUrl },
+    //     postage_label: { label_url: labelUrl },
+    //   } = result;
+    //   console.log('trackingUrl ===>  ', trackingUrl);
+    //   console.log('labelUrl ===>  ', labelUrl);
+    // }
 
     _.set(ctx, 'body', { result });
     // _.set(ctx, 'body', { result, trackingUrl });

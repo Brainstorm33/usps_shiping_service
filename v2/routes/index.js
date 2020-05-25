@@ -12,6 +12,7 @@ const buyAnOrder = require('../controllers/buyAnOrder');
 const refundLabel = require('../controllers/refundLabel');
 const retrieveShipping = require('../controllers/retrieveShipping');
 const retrieveTracker = require('../controllers/retrieveTracker');
+const retrieveOrder = require('../controllers/retrieveOrder');
 const validateAddress = require('../controllers/validateAddress');
 
 router.post('/rateShipping', rateShipping); // rate shipping for an item
@@ -21,6 +22,7 @@ router.post('/buyAnOrder', buyAnOrder); // generate label for items
 router.post('/refundLabel', refundLabel);
 router.post('/retrieveShipping', retrieveShipping);
 router.post('/retrieveTracker', retrieveTracker);
+router.post('/retrieveOrder', retrieveOrder);
 router.post('/validateAddress', validateAddress);
 
 module.exports = router;
