@@ -11,13 +11,16 @@ async function retrieveOrder(ctx) {
   const { orderId, serviceName } = data;
 
   try {
-    const shipment = await api.Order.retrieve(orderId);
+    let shipment = await api.Order.retrieve(orderId);
 
-    // TODO test with serviceName
     let rate;
     if (serviceName) {
       rate = shipment.rates.find(el => el.service === serviceName);
-      shipment.selected_rate = rate;
+
+      shipment = {
+        selected_rate: rate,
+        ...shipment,
+      };
     }
 
     _.set(ctx, 'body', shipment);
