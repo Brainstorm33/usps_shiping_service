@@ -1,8 +1,9 @@
-const router = require('koa-router')();
+const Router = require('koa-router');
 
-const v2 = require('../v2/routes');
+const router = new Router({
+  prefix: '/api/v2/generate',
+});
 
-router.use(v2.routes());
 
 const rateShipping = require('../controllers/rate');
 const generateLabel = require('../controllers/label');
@@ -10,7 +11,6 @@ const refundLabel = require('../controllers/refundLabel');
 const retrieveShipping = require('../controllers/retrieveShipping');
 const retrieveTracker = require('../controllers/retrieveTracker');
 const validateAddress = require('../controllers/validateAddress');
-
 
 router.post('/rateShipping', rateShipping);
 router.post('/generateLabel', generateLabel);
