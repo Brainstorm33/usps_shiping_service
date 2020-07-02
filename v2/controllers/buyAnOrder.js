@@ -3,7 +3,7 @@ const router = require('koa-router')();
 
 const Easypost = require('@easypost/api');
 
-// TODO test
+
 async function buyAnOrder(ctx) {
   const { USPS_KEY } = process.env;
   const api = new Easypost(USPS_KEY);
